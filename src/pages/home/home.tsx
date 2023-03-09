@@ -23,18 +23,12 @@ function HomePage() {
     <Box p={3}>
       <Stack direction="column" spacing={2}>
         <ActionCardsSection />
-        {loadingCategories ? (
-          <ProductsLoadingState />
-        ) : (
-          <>
-            <ProductCategoriesSlide
-              selectedCategory={selectedCategory}
-              onCategorySelect={setSelectedCategory}
-              categories={categories}
-            />
-            <ProductsList products={selectedProducts} />
-          </>
-        )}
+        <ProductCategoriesSlide
+          selectedCategory={selectedCategory}
+          onCategorySelect={setSelectedCategory}
+          categories={categories}
+        />
+        <ProductsList loading={true} products={selectedProducts} />
       </Stack>
     </Box>
   );
