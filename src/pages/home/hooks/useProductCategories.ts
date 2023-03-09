@@ -1,9 +1,7 @@
 import { QUERY_GET_ALL_CATEGORIES } from "@/api/queries";
-import { productsStoreActions } from "@/store/redux/products/slice";
-import { productCategoriesSelector } from "@/store/redux/selectors";
+import { useProductsStore } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 export interface UseProductCategories {
   loading: boolean;
@@ -12,8 +10,10 @@ export interface UseProductCategories {
 }
 
 export const useProductCategories = (): UseProductCategories => {
-  const categories = useSelector(productCategoriesSelector);
-  const dispatch = useDispatch();
+  const categories = useProductsStore((state) => state.productCategories);
+  const setProductCategories = useProductsStore(
+    (state) => state.setProductCategories
+  );
 
   const {
     isLoading,
@@ -27,9 +27,7 @@ export const useProductCategories = (): UseProductCategories => {
 
   useEffect(() => {
     if (categoriesList && categoriesList.categories) {
-      dispatch(
-        productsStoreActions.setProductCategories(categoriesList.categories)
-      );
+      setProductCategories(categoriesList.categories);
     }
   }, [categoriesList]);
 

@@ -8,7 +8,7 @@ interface ProductStoreState {
   setProductCategories: (categories: Miele.ProductCategory[]) => void;
 }
 
-const useZustandProductsStore = create<ProductStoreState>()(
+const useProductsStore = create<ProductStoreState>()(
   devtools(
     persist(
       (set) => ({
@@ -30,4 +30,4 @@ const useZustandProductsStore = create<ProductStoreState>()(
   )
 );
 
-export { useZustandProductsStore };
+export { useProductsStore };
