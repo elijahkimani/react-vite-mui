@@ -32,7 +32,7 @@ export const useProductCategories = (): UseProductCategories => {
   }, [categoriesList]);
 
   return {
-    loading: false,
+    loading: isLoading || isFetching,
     categories: categoriesList?.categories || categories,
     error,
   };
