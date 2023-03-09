@@ -1,9 +1,8 @@
 import { Box, Stack } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ActionCardsSection,
   ProductCategoriesSlide,
-  ProductsLoadingState,
   ProductsList,
 } from "./components";
 import { useProducts, useProductCategories } from "./hooks";
@@ -18,6 +17,12 @@ function HomePage() {
       return products?.filter((x) => x.category === selectedCategory);
     }
   }, [selectedCategory]);
+
+  useEffect(() => {
+    if (categories && categories.length > 0 && !selectedCategory) {
+      setSelectedCategory(categories[0].name);
+    }
+  }, [categories]);
 
   return (
     <Box p={3}>
