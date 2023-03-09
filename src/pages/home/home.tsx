@@ -27,8 +27,9 @@ function HomePage() {
           selectedCategory={selectedCategory}
           onCategorySelect={setSelectedCategory}
           categories={categories}
+          loading={loadingCategories}
         />
-        <ProductsList loading={true} products={selectedProducts} />
+        <ProductsList loading={loadingProducts} products={selectedProducts} />
       </Stack>
     </Box>
   );
