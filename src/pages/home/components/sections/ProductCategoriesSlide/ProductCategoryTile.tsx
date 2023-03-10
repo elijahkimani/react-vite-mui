@@ -1,6 +1,5 @@
-import { Typography, styled } from "@mui/material";
+import { styled, Typography } from "@mui/material";
 import clsx from "clsx";
-import React from "react";
 
 const StyledWrapper = styled("div")(({ theme }) => ({
   borderWidth: "2px",
@@ -45,12 +44,17 @@ interface ProductCategoryTileProps {
 
 const ProductCategoryTile = (props: ProductCategoryTileProps) => {
   const { category, onClick, isSelected } = props;
+
+  const handleClick = () => {
+    onClick(category.name);
+  };
+
   return (
     <StyledWrapper
       className={clsx({
         selected: isSelected,
       })}
-      onClick={() => onClick(category.name)}
+      onClick={handleClick}
     >
       <div>
         <img src={category.thumbnail} />

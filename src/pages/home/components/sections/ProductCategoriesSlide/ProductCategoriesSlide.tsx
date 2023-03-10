@@ -1,15 +1,60 @@
 import { generateArray } from "@/utils/generateArray";
-import { Stack, styled } from "@mui/material";
+import { ChevronLeftRounded, ChevronRightRounded } from "@mui/icons-material";
+import { alpha, IconButton, styled } from "@mui/material";
 import React from "react";
+import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import ProductCategoryThumbnailSkeleton from "./ProductCategoryThumbnailSkeleton";
 import ProductCategoryTile from "./ProductCategoryTile";
 
-const StyledStack = styled(Stack)(({ theme }) => ({
-  overflowX: "scroll",
-  scrollbarWidth: "none",
-  backgroundColor: theme.palette.action.hover,
-  "&::-webkit-scrollbar": { display: "none" },
+const StyledScrollMenuWrapper = styled("div")(({ theme }) => ({
+  position: "relative",
+  "& .react-horizontal-scrolling-menu--arrow-left, .react-horizontal-scrolling-menu--arrow-right":
+    {
+      position: "absolute",
+      alignItems: "center",
+      top: 24,
+      zIndex: 2,
+
+      "& .MuiIconButton-root": {
+        backgroundColor: alpha(theme.palette.primary.light, 0.25),
+        transition: "all 250ms ease-in-out",
+        "&:disabled": {
+          backgroundColor: theme.palette.action.hover,
+          display: "none",
+        },
+        "&:hover": {
+          backgroundColor: alpha(theme.palette.primary.light, 0.4),
+        },
+      },
+    },
+  "& .react-horizontal-scrolling-menu--arrow-left": {
+    marginLeft: -20,
+  },
+  "& .react-horizontal-scrolling-menu--arrow-right": {
+    right: -20,
+  },
 }));
+
+function RightArrow() {
+  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
+
+  return (
+    <IconButton disabled={isLastItemVisible} onClick={() => scrollNext()}>
+      <ChevronRightRounded />
+    </IconButton>
+  );
+}
+
+function LeftArrow() {
+  const { isFirstItemVisible, scrollPrev } =
+    React.useContext(VisibilityContext);
+
+  return (
+    <IconButton disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
+      <ChevronLeftRounded />
+    </IconButton>
+  );
+}
 
 interface ProductCategoriesSlideProps {
   categories?: Miele.ProductCategory[];
@@ -27,22 +72,24 @@ const ProductCategoriesSlide = (props: ProductCategoriesSlideProps) => {
   } = props;
 
   return (
-    <StyledStack direction="row" spacing={2} py={2}>
-      {loading
-        ? generateArray(10).map((x) => {
-            return <ProductCategoryThumbnailSkeleton />;
-          })
-        : categories.map((category) => {
-            return (
-              <ProductCategoryTile
-                isSelected={category.name === selectedCategory}
-                onClick={onCategorySelect}
-                key={category.name}
-                category={category}
-              />
-            );
-          })}
-    </StyledStack>
+    <StyledScrollMenuWrapper>
+      <ScrollMenu RightArrow={RightArrow} LeftArrow={LeftArrow}>
+        {loading
+          ? generateArray(10).map((x) => {
+              return <ProductCategoryThumbnailSkeleton key={x} />;
+            })
+          : categories.map((category) => {
+              return (
+                <ProductCategoryTile
+                  isSelected={category.name === selectedCategory}
+                  onClick={onCategorySelect}
+                  key={category.name}
+                  category={category}
+                />
+              );
+            })}
+      </ScrollMenu>
+    </StyledScrollMenuWrapper>
   );
 };
 
