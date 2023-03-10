@@ -1,19 +1,22 @@
-import { queryClient } from "./api/query-client";
-import { QueryClientProvider } from "@tanstack/react-query";
-import HomePage from "./pages/home/home";
-import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "@/styles/mui-theme";
-import "./styles/app.css";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter } from "react-router-dom";
+import { queryClient } from "./api/query-client";
 import MainLayout from "./components/layout";
+import AppRouter from "./router/AppRouter";
+import "./styles/app.css";
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <MainLayout>
-          <HomePage />
-        </MainLayout>
+        <BrowserRouter>
+          <MainLayout>
+            <AppRouter />
+          </MainLayout>
+        </BrowserRouter>
       </ThemeProvider>
     </QueryClientProvider>
   );

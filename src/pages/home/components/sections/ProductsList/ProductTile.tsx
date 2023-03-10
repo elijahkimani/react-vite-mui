@@ -1,4 +1,5 @@
 import { Typography, styled } from "@mui/material";
+import { useNavigate } from "react-router";
 
 const StyledWrapper = styled("div")(({ theme }) => ({
   cursor: "pointer",
@@ -20,8 +21,14 @@ interface ProductTileProps {
 
 const ProductTile = (props: ProductTileProps) => {
   const { product } = props;
+  const navigate = useNavigate();
+
+  const handleOpenProfile = (productId: number) => () => {
+    navigate(`/products/${productId}`);
+  };
+
   return (
-    <StyledWrapper>
+    <StyledWrapper onClick={handleOpenProfile(product.id)}>
       <img src={product.thumbnail} loading="lazy" />
       <div className="text">
         <Typography variant="subtitle2">
