@@ -6,7 +6,7 @@ const StyledWrapper = styled("div")(({ theme }) => ({
   minHeight: "100vh",
   "& main": {
     marginTop: 64,
-    minHeight: "calc(100vh - 64px)",
+    height: "100%",
   },
 }));
 
